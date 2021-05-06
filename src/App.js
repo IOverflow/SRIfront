@@ -1,7 +1,8 @@
 import './App.css';
-import React, {Component} from 'react';
-import {DocList} from './components/document-list/document-list.component'
-import DummyData from './components/dummydata.json'
+import React, { Component } from 'react';
+import { DocList } from './components/document-list/document-list.component';
+import { QueryInput } from './components/query-input/query-input.component';
+import DummyData from './components/dummydata.json';
 
 // function App() {
 //   return (
@@ -11,31 +12,29 @@ import DummyData from './components/dummydata.json'
 //         <DocList name='docList'>
 //           Here goes documents
 //         </DocList>
-//       </header> 
+//       </header>
 //     </div>
 //   );
 // }
-class App extends Component{
-  constructor(){
-    super();
+class App extends Component {
+    constructor() {
+        super();
 
-    this.state = { docs: []};
-  }
+        this.state = { docs: [] };
+    }
 
-  componentDidMount(){
-    this.setState({docs: DummyData})
-  }
+    componentDidMount() {
+        this.setState({ docs: DummyData });
+    }
 
-  render(){
-    return(
-      <div className='App'>
-        <header className='App-header'>
-            <h1>Disease List</h1>
-            <DocList docs={this.state.docs} />
-        </header>
-      </div>
-    )
-  }
+    render() {
+        return (
+            <div className='App'>
+                <QueryInput />
+                <DocList docs={this.state.docs} />
+            </div>
+        );
+    }
 }
 
 export default App;

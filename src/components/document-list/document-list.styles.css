@@ -1,8 +1,8 @@
 .doc-list {
     width: 50vw;
-    margin: 0 auto;
+    margin: 0 auto 150px;
     align-items: center;
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 20px;
+    grid-gap: 5%;
 }

@@ -1,0 +1,22 @@
+.query-input {
+    background-color: grey;
+}
+
+.query-label {
+    font-size: medium;
+    font-style: italic;
+}
+
+.query-container {
+    margin: 10% auto 3%;
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 50vw;
+    align-items: center;
+}
+
+.query-button {
+    size: initial;
+    border-style: ridge;
+    width: fit-content;
+}
