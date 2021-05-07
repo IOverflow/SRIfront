@@ -1,5 +1,5 @@
 .query-input {
-    background-color: grey;
+    background-color: lightblue;
 }
 
 .query-label {
@@ -19,4 +19,11 @@
     size: initial;
     border-style: ridge;
     width: fit-content;
+}
+
+.selector-group {
+    justify-items: center;
+    align-items: center;
+    margin-top: 10%;
+    display: grid;
 }

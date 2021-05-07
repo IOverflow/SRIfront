@@ -1,16 +1,16 @@
 [
     {
-        "id":1,
-        "disease":"Athsma",
-        "symptoms": ["shortness of breath", "dust allergy"],
-        "description":"Common disease of hereditary or environmental cause, with usual early onset in the hereditary case, may appear at any stage in life.",
-        "treatment":"reduce exposure to allergens, salbutamol or another bronchodilator if shortness of breath, prednisone or similar corticosteroid if in crisis."
+        "id": 1,
+        "disease": "Athsma",
+        "symptoms": "shortness of breath, dust allergy",
+        "description": "Common disease of hereditary or environmental cause, with usual early onset in the hereditary case, may appear at any stage in life.",
+        "treatment": "reduce exposure to allergens, salbutamol or another bronchodilator if shortness of breath, prednisone or similar corticosteroid if in crisis."
     },
     {
-        "id":2,
-        "disease":"Cluster Headaches",
-        "symptoms":["Strong pain on one side of the head, around the eye, commonly described as burning, stabbing or drilling", "Regular recurrence of pain episode"],
-        "description":"Neurological disorder characterized by severe headaches, symptoms ussualy last from 15 minutes to 3 hours.",
-        "treatment":"Verapamil as preventive therapy, glucocorticoids as complementary medicine for the first 8 to 10 days, surgery in case of very severe cases that do not improve with other alternatives"
+        "id": 2,
+        "disease": "Cluster Headaches",
+        "symptoms": "Strong pain on one side of the head, around the eye, commonly described as burning, stabbing or drilling, Regular recurrence of pain episode",
+        "description": "Neurological disorder characterized by severe headaches, symptoms ussualy last from 15 minutes to 3 hours.",
+        "treatment": "Verapamil as preventive therapy, glucocorticoids as complementary medicine for the first 8 to 10 days, surgery in case of very severe cases that do not improve with other alternatives"
     }
 ]
