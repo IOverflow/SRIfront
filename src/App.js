@@ -2,8 +2,7 @@ import "./App.css";
 import React, { Component } from "react";
 import { DocList } from "./components/document-list/document-list.component";
 import { QueryInput } from "./components/query-input/query-input.component";
-import Document from "./components/document/document.component";
-import Grid from "@material-ui/core/Grid";
+import { Grid } from "@material-ui/core";
 
 class App extends Component {
     state = {
@@ -13,14 +12,17 @@ class App extends Component {
     render() {
         return (
             <div className='App'>
-                <QueryInput
-                    searchHandler={this.search}
-                    resetHandler={() => this.setState({ docs: [] })}
-                />
-                <DocList
-                    docs={this.state.docs}
-                    documentDeleteHandler={this.docDelete}
-                />
+                <Grid container className='AppGrid' spacing={10}>
+                    <Grid item>
+                        <QueryInput
+                            searchHandler={this.search}
+                            resetHandler={() => this.setState({ docs: [] })}
+                        />
+                    </Grid>
+                    <Grid item container alignItems='center' justify='center'>
+                        <DocList docs={this.state.docs} />
+                    </Grid>
+                </Grid>
             </div>
         );
     }
@@ -40,9 +42,7 @@ class App extends Component {
     docDelete = async (docId) => {
         const temp = this.state.docs;
         const filtered = temp.filter((doc) => doc.id !== docId);
-        await this.setState({ docs: filtered }, () =>
-            console.log(this.state.docs)
-        );
+        this.setState({ docs: filtered }, () => console.log(this.state.docs));
     };
 }
 
