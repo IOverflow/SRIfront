@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ButtonGroup, Button } from "@material-ui/core";
+import { ButtonGroup, Button, Input } from "@material-ui/core";
 import "./query-input.styles.css";
 
 export const QueryInput1 = () => (
@@ -23,7 +23,7 @@ export class QueryInput extends Component {
         searchSymptoms: false,
         searchSelected: false,
     };
-    constructor({ searchHandler }) {
+    constructor({ searchHandler, resetHandler }) {
         super();
         this.handleSearch = searchHandler;
     }
@@ -33,14 +33,8 @@ export class QueryInput extends Component {
             <div className='query-container'>
                 {this.state.searchSelected ? (
                     <div className='query-container'>
-                        <Button
-                            onClick={() =>
-                                this.setState({ searchSelected: false })
-                            }
-                        >
-                            Go Back
-                        </Button>
-                        <input
+                        <Button onClick={() => this.reset()}>Go Back</Button>
+                        <Input
                             type='search'
                             name='query'
                             id='query-search'
@@ -56,13 +50,13 @@ export class QueryInput extends Component {
                             onKeyPress={(e) => {
                                 this.handleEnter(e);
                             }}
-                        ></input>
-                        <button
+                        ></Input>
+                        <Button
                             className='query-button'
                             onClick={() => this.executeSearch()}
                         >
                             Buscar
-                        </button>
+                        </Button>
                     </div>
                 ) : (
                     <div className='selector-group'>
@@ -101,10 +95,16 @@ export class QueryInput extends Component {
         const endquery = this.state.endpoint + this.state.query;
         this.handleSearch(endquery);
     }
+
     handleEnter(event) {
         if (event.charCode === 13) {
             this.executeSearch();
         }
+    }
+
+    reset() {
+        this.setState({ searchSelected: false });
+        this.props.resetHandler();
     }
 }
 

@@ -1,13 +1,10 @@
 .doc-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 10% 5%;
     grid-template-areas:
-        "a a a a"
-        "b b . c"
+        "a a a e"
+        "b b b b"
+        "c c c c"
         "d d d d";
-
-    background-color: rgb(105, 130, 179);
-    border: 3px solid rgb(56, 58, 87);
 }
 
 .doc-title {
@@ -15,6 +12,11 @@
     justify-self: start;
     margin-left: 3%;
     text-align: left;
+    color: midnightblue;
+}
+
+.doc-expand {
+    grid-area: c;
 }
 
 .doc-descrp {
@@ -22,12 +24,16 @@
     justify-self: start;
     justify-content: left;
     margin-left: 3%;
+    margin-right: 3%;
     text-align: left;
 }
 
-.doc-dismiss {
-    grid-area: c;
+.doc-tip {
+    grid-area: e;
     justify-self: end;
+    font-size: smaller;
+    font-style: italic;
+    color: lightgray;
 }
 
 .doc-content {
@@ -37,4 +43,5 @@
     justify-self: start;
     text-align: left;
     margin-left: 3%;
+    margin-right: 3%;
 }

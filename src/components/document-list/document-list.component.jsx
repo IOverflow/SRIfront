@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "./document-list.styles.css";
-import Document, { Dismiss } from "../document/document.component";
+import Document from "../document/document.component";
+import { List, withStyles } from "@material-ui/core";
 
-export const DocList = ({ docs }) => {
+export const DocList = ({ docs, documentDeleteHandler }) => {
+    // const [data, setData] = useState(docs);
+
+    // const documentDeleteHandler = (docid) => {
+    //     docs.filter((doc) => doc.id !== docid);
+    // };
     return docs.length ? (
-        <div className='doc-list'>
+        <MyList>
             {docs.length ? <h2>Results</h2> : null}
             {docs.map((doc) => (
-                <Document key={doc.id} doc={doc} />
+                <div>
+                    <Document
+                        iddoc={doc.id}
+                        doc={doc}
+                        handleDelete={documentDeleteHandler}
+                    />
+                </div>
             ))}
-        </div>
+        </MyList>
     ) : null;
 };
+
+const MyList = withStyles({
+    root: { width: "60%", alignSelf: "center" },
+})(List);
