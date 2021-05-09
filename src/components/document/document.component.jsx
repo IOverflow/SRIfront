@@ -23,9 +23,15 @@ export const MyDocument = ({ doc }) => {
 
     const handleClick = () => {
         if (thisState.showContent) {
-            setThisState({ showContent: false });
+            setThisState({
+                notDeleted: thisState.notDeleted,
+                showContent: false,
+            });
         } else {
-            setThisState({ showContent: true });
+            setThisState({
+                notDeleted: thisState.notDeleted,
+                showContent: true,
+            });
         }
     };
 
@@ -51,7 +57,10 @@ export const MyDocument = ({ doc }) => {
                             <Grid item xs={1} container justify='flex-end'>
                                 <IconButton
                                     onClick={() => {
-                                        setThisState({ notDeleted: false });
+                                        setThisState({
+                                            notDeleted: false,
+                                            showContent: thisState.showContent,
+                                        });
                                     }}
                                 >
                                     <Delete htmlColor='grey' />
