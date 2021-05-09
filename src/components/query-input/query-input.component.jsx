@@ -137,7 +137,7 @@ export class QueryInput extends Component {
                             </MyButton>
                         </Grid>
                         <Grid item xs={10} container alignItems='center'>
-                            <Input
+                            <MyInput
                                 type='search'
                                 name='query'
                                 id='query-search'
@@ -153,7 +153,7 @@ export class QueryInput extends Component {
                                 onKeyPress={(e) => {
                                     this.handleEnter(e);
                                 }}
-                            ></Input>
+                            ></MyInput>
                         </Grid>
                         <Grid item xs={1}>
                             <MyButton onClick={() => this.executeSearch()}>
@@ -228,3 +228,10 @@ const Button1 = withStyles({
         backgroundColor: "darkGrey",
     },
 })(Button);
+
+const MyInput = withStyles({
+    root: {
+        caretColor: "darkslategray",
+        backgroundColor: "lightgrey",
+    },
+})(Input);

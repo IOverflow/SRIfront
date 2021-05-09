@@ -12,7 +12,9 @@
     justify-self: start;
     margin-left: 3%;
     text-align: left;
-    color: midnightblue;
+    font-size: 16pt;
+    color: darkslategray;
+    text-transform: capitalize;
 }
 
 .doc-expand {
@@ -44,4 +46,11 @@
     text-align: left;
     margin-left: 3%;
     margin-right: 3%;
+    text-transform: capitalize;
+    color: rgb(32, 41, 41);
+}
+
+.doc-section-title {
+    font-size: medium;
+    color: darkslategray;
 }
