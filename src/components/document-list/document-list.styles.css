@@ -3,3 +3,10 @@
     margin: 0 auto 20%;
     align-items: center;
 }
+
+.doc-result-header {
+    justify-items: left;
+    justify-content: left;
+    font-size: 20pt;
+    color: darkgrey;
+}

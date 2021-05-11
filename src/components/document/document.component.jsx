@@ -7,7 +7,7 @@ import {
     withStyles,
 } from "@material-ui/core";
 import { Delete, ExpandLess, ExpandMore } from "@material-ui/icons";
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import "./document.styles.css";
 
 const Title = (props) => <h3 className='doc-title'>{props.children}</h3>;
@@ -16,13 +16,13 @@ const Description = (props) => <p className='doc-descrp'>{props.children}</p>;
 const Content = (props) => (
     <div className='doc-content' justify-content='left'>
         {props.children.symptoms.length ? (
-            <h5 className='doc-section-title'>Symptoms</h5>
+            <h4 className='doc-section-title'>Symptoms</h4>
         ) : null}
-        <p>{props.children.symptoms}</p>
+        <p className='doc-content-parag'>{props.children.symptoms}</p>
         {props.children.treatment.length ? (
-            <h5 className='doc-section-title'>Treatment</h5>
+            <h4 className='doc-section-title'>Treatment</h4>
         ) : null}
-        <p>{props.children.treatment}</p>
+        <p className='doc-content-parag'>{props.children.treatment}</p>
     </div>
 );
 

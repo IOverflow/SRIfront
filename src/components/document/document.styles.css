@@ -51,6 +51,11 @@
 }
 
 .doc-section-title {
-    font-size: medium;
+    font-size: 13pt;
     color: darkslategray;
+    padding-bottom: 0px;
+}
+
+.doc-content-parag {
+    padding-top: 0px;
 }

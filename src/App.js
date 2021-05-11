@@ -7,19 +7,26 @@ import { Grid } from "@material-ui/core";
 class App extends Component {
     state = {
         docs: [],
+        suggest: [],
     };
 
     render() {
         return (
             <div className='App'>
-                <Grid container className='AppGrid' spacing={10}>
-                    <Grid item>
+                <Grid container className='AppGrid'>
+                    <Grid item xs={12}>
                         <QueryInput
                             searchHandler={this.search}
                             resetHandler={() => this.setState({ docs: [] })}
                         />
                     </Grid>
-                    <Grid item container alignItems='center' justify='center'>
+                    <Grid
+                        item
+                        xs={12}
+                        container
+                        alignItems='center'
+                        justify='center'
+                    >
                         <DocList docs={this.state.docs} />
                     </Grid>
                 </Grid>
@@ -42,7 +49,7 @@ class App extends Component {
     docDelete = async (docId) => {
         const temp = this.state.docs;
         const filtered = temp.filter((doc) => doc.id !== docId);
-        this.setState({ docs: filtered }, () => console.log(this.state.docs));
+        this.setState({ docs: filtered });
     };
 }
 
