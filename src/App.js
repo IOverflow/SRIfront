@@ -10,14 +10,22 @@ class App extends Component {
         suggest: [],
     };
 
+    componentDidMount() {
+        this.getSuggestions();
+    }
+
     render() {
         return (
             <div className='App'>
                 <Grid container className='AppGrid'>
                     <Grid item xs={12}>
+                        <header className='App-header'>Sickipedia</header>
+                    </Grid>
+                    <Grid item xs={12}>
                         <QueryInput
                             searchHandler={this.search}
                             resetHandler={() => this.setState({ docs: [] })}
+                            suggestions={this.state.suggest}
                         />
                     </Grid>
                     <Grid
@@ -50,6 +58,14 @@ class App extends Component {
         const temp = this.state.docs;
         const filtered = temp.filter((doc) => doc.id !== docId);
         this.setState({ docs: filtered });
+    };
+
+    getSuggestions = () => {
+        fetch("http://localhost:8000/search/vocabulary")
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({ suggest: response });
+            });
     };
 }
 

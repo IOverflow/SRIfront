@@ -36,16 +36,18 @@ const CustomTextField = withStyles({
     },
 })(TextField);
 
-export const QueryInput = ({ searchHandler, resetHandler }) => {
+export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
     const [vocab, setVocab] = useState([]);
 
     const [query, setQuery] = useState([]);
 
     const [endpoint, setEndpoint] = useState("");
 
-    const [searchSympt, setSymptSearch] = useState(false);
-
     const [search, setSearchActive] = useState(false);
+
+    const [aisearch, setAISearch] = useState(false);
+
+    const [res, setReset] = useState(false);
 
     const executeSearch = () => {
         let temp = "";
@@ -72,8 +74,8 @@ export const QueryInput = ({ searchHandler, resetHandler }) => {
     const reset = () => {
         setQuery([]);
         setEndpoint("");
-        setSymptSearch(false);
         setSearchActive(false);
+        setAISearch(false);
         resetHandler();
     };
 
@@ -86,6 +88,13 @@ export const QueryInput = ({ searchHandler, resetHandler }) => {
                     spacing={0}
                     justify='center'
                 >
+                    {/* <Grid item xs={1}></Grid>
+                    <Grid item xs={10} container>
+                        <header className='input-message'>
+                            {search ? "What are you searching for?" : null}
+                        </header>
+                    </Grid>
+                    <Grid item xs={1}></Grid> */}
                     <Grid
                         item
                         xs={1}
@@ -95,7 +104,10 @@ export const QueryInput = ({ searchHandler, resetHandler }) => {
                     >
                         <ButtonBackAndSearch
                             style={{ marginTop: 7 }}
-                            onClick={() => reset()}
+                            onClick={() => {
+                                setReset(true);
+                                reset();
+                            }}
                         >
                             <ArrowBackIosRounded fontSize='large' />
                         </ButtonBackAndSearch>
@@ -112,7 +124,6 @@ export const QueryInput = ({ searchHandler, resetHandler }) => {
                             multiple
                             autoComplete={true}
                             id='custom-autocomplete'
-                            disableClearable
                             className='query-input'
                             options={vocab}
                             filterSelectedOptions={true}
@@ -124,9 +135,9 @@ export const QueryInput = ({ searchHandler, resetHandler }) => {
                                     {...params}
                                     placeholder={
                                         query.length === 0
-                                            ? searchSympt
-                                                ? "Enter symptoms here"
-                                                : "Enter disease name here"
+                                            ? aisearch
+                                                ? "Enhanced search"
+                                                : "Regular search"
                                             : null
                                     }
                                     margin='normal'
@@ -137,6 +148,7 @@ export const QueryInput = ({ searchHandler, resetHandler }) => {
                                     InputProps={{
                                         ...params.InputProps,
                                         type: "text",
+                                        value: query,
                                     }}
                                 />
                             )}
@@ -159,27 +171,28 @@ export const QueryInput = ({ searchHandler, resetHandler }) => {
                 </Grid>
             ) : (
                 <div className='selector-group'>
-                    <h3 className='welcome-message'>
-                        What are you searching for?
-                    </h3>
+                    <header className='welcome-message'>
+                        How would like to search?
+                    </header>
                     <ButtonGroup name='search-selector'>
                         <Button1
                             onClick={() => {
                                 setSearchActive(true);
-                                setEndpoint("disease");
-                            }}
-                        >
-                            Disease
-                        </Button1>
-                        <Button1
-                            onClick={() => {
-                                setSearchActive(true);
-                                setSymptSearch(true);
                                 setEndpoint("search/?query=");
                                 getSuggestions();
                             }}
                         >
-                            Symptoms
+                            Regular
+                        </Button1>
+                        <Button1
+                            onClick={() => {
+                                setSearchActive(true);
+                                setAISearch(true);
+                                setEndpoint("search/ranked?query=");
+                                getSuggestions();
+                            }}
+                        >
+                            Enhanced
                         </Button1>
                     </ButtonGroup>
                 </div>

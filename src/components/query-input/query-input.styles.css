@@ -4,8 +4,7 @@
         sans-serif;
     font-size: 20pt;
     font-style: oblique;
-    margin-bottom: 10%;
-    margin-top: 10%;
+    margin-bottom: 2%;
 }
 
 .query-input {
@@ -20,7 +19,7 @@
 }
 
 .query-container {
-    margin: 10% auto 3%;
+    margin: 0 auto 3%;
     display: grid;
     grid-template-columns: 1fr;
     width: 50vw;
@@ -32,6 +31,15 @@
     border-style: ridge;
     width: fit-content;
     color: ivory;
+}
+
+.input-message {
+    color: lightgrey;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    font-size: 16pt;
+    font-style: oblique;
+    margin-top: 5%;
 }
 
 .selector-group {
