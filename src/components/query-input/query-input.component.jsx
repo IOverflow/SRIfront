@@ -54,17 +54,26 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
 
     const [interValue, setInterValue] = useState([]);
 
+    const [notSel, setNotSel] = useState([]);
+
     const testRef = useRef(null);
+
+    const relatedRef = useRef(null);
+
+    const [count, setCount] = useState(0);
 
     const executeSearch = () => {
         let temp = "";
+        setCount(0);
         query.map((word) => (temp += word + " "));
         const q = temp.slice(0, temp.length - 1);
         const endquery = endpoint + q;
         console.log("------Executing Search------");
         console.log(q);
-        console.log("----------------------------");
         searchHandler(endquery);
+        setNotSel(related);
+        console.log(notSel);
+        console.log("----------------------------");
     };
 
     const handleEnter = (event) => {
@@ -126,19 +135,27 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
                             value={query}
                             freeSolo
                             multiple
-                            ref={testRef}
                             autoComplete={true}
                             id='custom-autocomplete'
                             className='query-input'
                             options={vocab}
                             filterSelectedOptions={true}
                             onChange={(e, v, r) => {
+                                console.log(query);
+                                console.log(v);
+                                const t = query.filter((w) => !v.includes(w));
+                                if (related.includes(t[0])) {
+                                    setCount(count - 1);
+                                    console.log("decreasing count");
+                                }
+                                console.log("t: ", t);
                                 setQuery(v);
                                 setInterValue(query);
+                                console.log(r);
                             }}
-                            onFocus={()=>}
                             renderInput={(params) => (
                                 <CustomTextField
+                                    ref={testRef}
                                     {...params}
                                     placeholder={
                                         query.length === 0
@@ -152,15 +169,13 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
                                     onKeyPress={(e) => {
                                         handleEnter(e);
                                     }}
-                                    onChange={(e) => {
-                                        console.log("--OnChangeInside--");
-                                        console.log(e.target);
-                                        console.log(
-                                            "query from internal input change: ",
-                                            query
+                                    onClick={(e) => {
+                                        console.log("clicked text", query);
+                                        const temp = related.filter(
+                                            (t) => !query.includes(t)
                                         );
-
-                                        console.log("------------------");
+                                        setNotSel(temp);
+                                        console.log("not selected", notSel);
                                     }}
                                     InputProps={{
                                         ...params.InputProps,
@@ -185,77 +200,79 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
                             <SearchRounded fontSize='large' />
                         </ButtonBackAndSearch>
                     </Grid>
-                    {related.length > 0 ? (
+                    {related.length > count ? (
                         <Grid
                             item
-                            xs={10}
                             container
-                            style={{
-                                backgroundColor: "darkgrey",
-                                alignItems: "center",
-                                borderRadius: "5pt",
-                                borderBottomLeftRadius: "1pt",
-                                borderBottomRightRadius: "1pt",
-                                marginTop: "3%",
-                            }}
+                            alignItems='center'
+                            justify='center'
+                            ref={relatedRef}
                         >
-                            <Grid item>
-                                <label
+                            <Grid
+                                item
+                                xs={10}
+                                container
+                                style={{
+                                    backgroundColor: "darkgrey",
+                                    alignItems: "center",
+                                    borderRadius: "5pt",
+                                    borderBottomLeftRadius: "1pt",
+                                    borderBottomRightRadius: "1pt",
+                                    marginTop: "3%",
+                                }}
+                            >
+                                <Grid item>
+                                    <label
+                                        style={{
+                                            fontStyle: "italic",
+                                            color: "darkslategray",
+                                            fontSize: "13pt",
+                                            width: "100%",
+                                            padding: "7pt",
+                                            lineHeight: "25pt",
+                                        }}
+                                    >
+                                        You might also be looking for:
+                                    </label>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={10} container>
+                                <List
                                     style={{
-                                        fontStyle: "italic",
-                                        color: "darkslategray",
-                                        fontSize: "13pt",
+                                        backgroundColor: "darkGrey",
+                                        borderRadius: "5pt",
+                                        borderTopLeftRadius: "1pt",
+                                        borderTopRightRadius: "1pt",
                                         width: "100%",
-                                        padding: "7pt",
-                                        lineHeight: "25pt",
+                                        marginTop: "4px",
                                     }}
                                 >
-                                    You might also be looking for:
-                                </label>
+                                    {related.map((term) =>
+                                        !interValue.includes(term) ||
+                                        !query.includes(term) ? (
+                                            <ListItem
+                                                button
+                                                onClick={() => {
+                                                    console.log(
+                                                        testRef.current
+                                                            .innerText
+                                                    );
+                                                    console.log(query);
+                                                    const temp = query;
+                                                    temp.push(term);
+                                                    setInterValue(temp);
+                                                    testRef.current.click();
+                                                    setCount(count + 1);
+                                                }}
+                                            >
+                                                {term}
+                                            </ListItem>
+                                        ) : null
+                                    )}
+                                </List>
                             </Grid>
                         </Grid>
                     ) : null}
-
-                    <Grid item xs={10} container>
-                        {related.length > 0 ? (
-                            <List
-                                style={{
-                                    backgroundColor: "darkGrey",
-                                    borderRadius: "5pt",
-                                    borderTopLeftRadius: "1pt",
-                                    borderTopRightRadius: "1pt",
-                                    width: "100%",
-                                    marginTop: "4px",
-                                }}
-                            >
-                                {/* <ListItem
-                                    style={{
-                                        fontStyle: "italic",
-                                        color: "darkslategray",
-                                        fontSize: "13pt",
-                                        borderBottom: "2px dashed red",
-                                    }}
-                                >
-                                    You might also be looking for:
-                                </ListItem> */}
-                                {related
-                                    .filter((term) => !query.includes(term))
-                                    .map((term) => (
-                                        <ListItem
-                                            button
-                                            onClick={() => {
-                                                const temp = query;
-                                                temp.push(term);
-                                                setInterValue(temp);
-                                                testRef.current.click();
-                                            }}
-                                        >
-                                            {term}
-                                        </ListItem>
-                                    ))}
-                            </List>
-                        ) : null}
-                    </Grid>
                 </Grid>
             ) : (
                 <div className='selector-group'>
