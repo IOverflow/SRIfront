@@ -7,13 +7,8 @@ import { Grid } from "@material-ui/core";
 class App extends Component {
     state = {
         docs: [],
-        suggest: [],
         related: [],
     };
-
-    componentDidMount() {
-        this.getSuggestions();
-    }
 
     render() {
         return (
@@ -62,14 +57,6 @@ class App extends Component {
         const temp = this.state.docs;
         const filtered = temp.filter((doc) => doc.id !== docId);
         this.setState({ docs: filtered });
-    };
-
-    getSuggestions = () => {
-        fetch("http://localhost:8000/search/vocabulary")
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({ suggest: response });
-            });
     };
 }
 

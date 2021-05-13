@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
     ButtonGroup,
     Button,
@@ -7,14 +7,11 @@ import {
     Grid,
     List,
     ListItem,
-    ListItemText,
 } from "@material-ui/core";
 import "./query-input.styles.css";
 import { ArrowBackIosRounded, SearchRounded } from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import EventBus from "./../event-bus/event-bus.component";
-import reactDom from "react-dom";
 
 const CustomTextField = withStyles({
     root: {
@@ -54,8 +51,6 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
 
     const [interValue, setInterValue] = useState([]);
 
-    const [notSel, setNotSel] = useState([]);
-
     const testRef = useRef(null);
 
     const relatedRef = useRef(null);
@@ -71,8 +66,6 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
         console.log("------Executing Search------");
         console.log(q);
         searchHandler(endquery);
-        setNotSel(related);
-        console.log(notSel);
         console.log("----------------------------");
     };
 
@@ -141,17 +134,12 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
                             options={vocab}
                             filterSelectedOptions={true}
                             onChange={(e, v, r) => {
-                                console.log(query);
-                                console.log(v);
                                 const t = query.filter((w) => !v.includes(w));
                                 if (related.includes(t[0])) {
                                     setCount(count - 1);
-                                    console.log("decreasing count");
                                 }
-                                console.log("t: ", t);
                                 setQuery(v);
                                 setInterValue(query);
-                                console.log(r);
                             }}
                             renderInput={(params) => (
                                 <CustomTextField
@@ -168,14 +156,6 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
                                     variant='outlined'
                                     onKeyPress={(e) => {
                                         handleEnter(e);
-                                    }}
-                                    onClick={(e) => {
-                                        console.log("clicked text", query);
-                                        const temp = related.filter(
-                                            (t) => !query.includes(t)
-                                        );
-                                        setNotSel(temp);
-                                        console.log("not selected", notSel);
                                     }}
                                     InputProps={{
                                         ...params.InputProps,
@@ -253,11 +233,6 @@ export function QueryInput({ searchHandler, resetHandler, related }) {
                                             <ListItem
                                                 button
                                                 onClick={() => {
-                                                    console.log(
-                                                        testRef.current
-                                                            .innerText
-                                                    );
-                                                    console.log(query);
                                                     const temp = query;
                                                     temp.push(term);
                                                     setInterValue(temp);
