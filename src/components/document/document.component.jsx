@@ -80,6 +80,10 @@ export const MyDocument = ({ doc }) => {
                                     <Delete htmlColor='grey' />
                                 </IconButton>
                             </Grid>
+
+                            <Grid item xs={12}>
+                                <Description>{doc.description}</Description>
+                            </Grid>
                             <Grid item xs={12}>
                                 <IconButton onClick={() => handleClick()}>
                                     {thisState.showContent ? (
@@ -88,9 +92,6 @@ export const MyDocument = ({ doc }) => {
                                         <ExpandMore />
                                     )}
                                 </IconButton>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Description>{doc.description}</Description>
                             </Grid>
                             <Grid item xs={12}>
                                 <Collapse in={thisState.showContent}>

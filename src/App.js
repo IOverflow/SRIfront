@@ -8,6 +8,7 @@ class App extends Component {
     state = {
         docs: [],
         suggest: [],
+        related: [],
     };
 
     componentDidMount() {
@@ -24,8 +25,10 @@ class App extends Component {
                     <Grid item xs={12}>
                         <QueryInput
                             searchHandler={this.search}
-                            resetHandler={() => this.setState({ docs: [] })}
-                            suggestions={this.state.suggest}
+                            resetHandler={() =>
+                                this.setState({ docs: [], related: [] })
+                            }
+                            related={this.state.related}
                         />
                     </Grid>
                     <Grid
@@ -49,8 +52,9 @@ class App extends Component {
         });
         const textData = await response.text();
         const data = textData ? JSON.parse(textData) : {};
-        this.setState({ docs: data }, () => {
+        this.setState({ docs: data.diseases, related: data.related }, () => {
             console.log("state docs updated");
+            console.log(this.state.docs);
         });
     };
 

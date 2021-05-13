@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
     ButtonGroup,
     Button,
     withStyles,
     IconButton,
     Grid,
+    List,
+    ListItem,
+    ListItemText,
 } from "@material-ui/core";
 import "./query-input.styles.css";
 import { ArrowBackIosRounded, SearchRounded } from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import EventBus from "./../event-bus/event-bus.component";
+import reactDom from "react-dom";
 
 const CustomTextField = withStyles({
     root: {
@@ -36,7 +41,7 @@ const CustomTextField = withStyles({
     },
 })(TextField);
 
-export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
+export function QueryInput({ searchHandler, resetHandler, related }) {
     const [vocab, setVocab] = useState([]);
 
     const [query, setQuery] = useState([]);
@@ -47,13 +52,18 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
 
     const [aisearch, setAISearch] = useState(false);
 
-    const [res, setReset] = useState(false);
+    const [interValue, setInterValue] = useState([]);
+
+    const testRef = useRef(null);
 
     const executeSearch = () => {
         let temp = "";
         query.map((word) => (temp += word + " "));
         const q = temp.slice(0, temp.length - 1);
         const endquery = endpoint + q;
+        console.log("------Executing Search------");
+        console.log(q);
+        console.log("----------------------------");
         searchHandler(endquery);
     };
 
@@ -83,18 +93,12 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
         <div className='query-container'>
             {search ? (
                 <Grid
+                    className='search-grid'
                     container
                     alignItems='center'
                     spacing={0}
                     justify='center'
                 >
-                    {/* <Grid item xs={1}></Grid>
-                    <Grid item xs={10} container>
-                        <header className='input-message'>
-                            {search ? "What are you searching for?" : null}
-                        </header>
-                    </Grid>
-                    <Grid item xs={1}></Grid> */}
                     <Grid
                         item
                         xs={1}
@@ -105,7 +109,6 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
                         <ButtonBackAndSearch
                             style={{ marginTop: 7 }}
                             onClick={() => {
-                                setReset(true);
                                 reset();
                             }}
                         >
@@ -120,8 +123,10 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
                         justify='center'
                     >
                         <Autocomplete
+                            value={query}
                             freeSolo
                             multiple
+                            ref={testRef}
                             autoComplete={true}
                             id='custom-autocomplete'
                             className='query-input'
@@ -129,7 +134,9 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
                             filterSelectedOptions={true}
                             onChange={(e, v, r) => {
                                 setQuery(v);
+                                setInterValue(query);
                             }}
+                            onFocus={()=>}
                             renderInput={(params) => (
                                 <CustomTextField
                                     {...params}
@@ -145,10 +152,20 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
                                     onKeyPress={(e) => {
                                         handleEnter(e);
                                     }}
+                                    onChange={(e) => {
+                                        console.log("--OnChangeInside--");
+                                        console.log(e.target);
+                                        console.log(
+                                            "query from internal input change: ",
+                                            query
+                                        );
+
+                                        console.log("------------------");
+                                    }}
                                     InputProps={{
                                         ...params.InputProps,
                                         type: "text",
-                                        value: query,
+                                        value: interValue,
                                     }}
                                 />
                             )}
@@ -167,6 +184,77 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
                         >
                             <SearchRounded fontSize='large' />
                         </ButtonBackAndSearch>
+                    </Grid>
+                    {related.length > 0 ? (
+                        <Grid
+                            item
+                            xs={10}
+                            container
+                            style={{
+                                backgroundColor: "darkgrey",
+                                alignItems: "center",
+                                borderRadius: "5pt",
+                                borderBottomLeftRadius: "1pt",
+                                borderBottomRightRadius: "1pt",
+                                marginTop: "3%",
+                            }}
+                        >
+                            <Grid item>
+                                <label
+                                    style={{
+                                        fontStyle: "italic",
+                                        color: "darkslategray",
+                                        fontSize: "13pt",
+                                        width: "100%",
+                                        padding: "7pt",
+                                        lineHeight: "25pt",
+                                    }}
+                                >
+                                    You might also be looking for:
+                                </label>
+                            </Grid>
+                        </Grid>
+                    ) : null}
+
+                    <Grid item xs={10} container>
+                        {related.length > 0 ? (
+                            <List
+                                style={{
+                                    backgroundColor: "darkGrey",
+                                    borderRadius: "5pt",
+                                    borderTopLeftRadius: "1pt",
+                                    borderTopRightRadius: "1pt",
+                                    width: "100%",
+                                    marginTop: "4px",
+                                }}
+                            >
+                                {/* <ListItem
+                                    style={{
+                                        fontStyle: "italic",
+                                        color: "darkslategray",
+                                        fontSize: "13pt",
+                                        borderBottom: "2px dashed red",
+                                    }}
+                                >
+                                    You might also be looking for:
+                                </ListItem> */}
+                                {related
+                                    .filter((term) => !query.includes(term))
+                                    .map((term) => (
+                                        <ListItem
+                                            button
+                                            onClick={() => {
+                                                const temp = query;
+                                                temp.push(term);
+                                                setInterValue(temp);
+                                                testRef.current.click();
+                                            }}
+                                        >
+                                            {term}
+                                        </ListItem>
+                                    ))}
+                            </List>
+                        ) : null}
                     </Grid>
                 </Grid>
             ) : (
@@ -199,7 +287,7 @@ export const QueryInput = ({ searchHandler, resetHandler, suggestions }) => {
             )}
         </div>
     );
-};
+}
 
 const ButtonBackAndSearch = withStyles({
     root: {

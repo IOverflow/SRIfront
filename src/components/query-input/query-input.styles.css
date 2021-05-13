@@ -26,6 +26,10 @@
     align-items: center;
 }
 
+.search-grid {
+    margin-top: 7%;
+}
+
 .query-button {
     size: initial;
     border-style: ridge;
